@@ -70,6 +70,8 @@ self.addEventListener('notificationclick', (event) => {
  */
 
 messaging.onMessage((payload) => {
+    console.log('[firebase-messaging-sw.js] Received message ', payload);
+
     let data = JSON.parse(payload.data.custom_notification);
     let notificationTitle = data.title;
     let notificationOptions = {
@@ -88,6 +90,8 @@ messaging.onMessage((payload) => {
 });
 
 messaging.setBackgroundMessageHandler((payload) => {
+    console.log('[firebase-messaging-sw.js] Received background message ', payload);
+
     let data = JSON.parse(payload.data.custom_notification);
     let notificationTitle = data.title;
     let notificationOptions = {
@@ -100,7 +104,6 @@ messaging.setBackgroundMessageHandler((payload) => {
         ],
         // For additional data to be sent to event listeners, needs to be set in this data {}
         data: { confirm: data.confirm, decline: data.decline, open: data.open }
-    };
-
+    };    
     return self.registration.showNotification(notificationTitle, notificationOptions);
 });
