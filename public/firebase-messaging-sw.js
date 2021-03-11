@@ -8,7 +8,7 @@ importScripts('https://www.gstatic.com/firebasejs/8.2.10/firebase-messaging.js')
 
 firebase.initializeApp({
     apiKey: "AIzaSyBTomKe23wQ7C0VpqRoDfM4tTHS091VDN0",
-    // authDomain: "mresta-acf9a.firebaseapp.com",
+    authDomain: "mresta-acf9a.firebaseapp.com",
     projectId: "mresta-acf9a",
     storageBucket: "mresta-acf9a.appspot.com",
     messagingSenderId: "598440874412",
@@ -29,9 +29,6 @@ const messaging = firebase.messaging();
 self.addEventListener('install', (event) => {
     console.log('Service worker installed');
 });
-
-
-
 
 
 /**
@@ -92,18 +89,27 @@ messaging.onMessage((payload) => {
 messaging.setBackgroundMessageHandler((payload) => {
     console.log('[firebase-messaging-sw.js] Received background message ', payload);
 
-    let data = JSON.parse(payload.data.custom_notification);
-    let notificationTitle = data.title;
-    let notificationOptions = {
-        body: data.body,
-        icon: 'https://image.flaticon.com/icons/png/128/107/107822.png',
-        // options event
-        actions: [
-            { action: 'confirmAttendance', title: '👍 Confirm attendance' },
-            { action: 'cancel', title: '👎 Not coming' }
-        ],
-        // For additional data to be sent to event listeners, needs to be set in this data {}
-        data: { confirm: data.confirm, decline: data.decline, open: data.open }
-    };    
-    return self.registration.showNotification(notificationTitle, notificationOptions);
+    const promiseChain = clients
+        .matchAll({
+            type: "window",
+            includeUncontrolled: true
+        })
+        .then(windowClients => {
+            for (let i = 0; i < windowClients.length; i++) {
+                const windowClient = windowClients[i];
+                windowClient.postMessage(payload);
+            }
+        })
+        .then(() => {
+            const data = payload.notification
+            // Customize notification here
+            const notificationTitle = data.title;
+            const notificationOptions = {
+                body: data.body,
+                icon: data.icon,
+                click_action: data.click_action
+            };
+            return registration.showNotification(notificationTitle, notificationOptions);
+        });
+    return promiseChain;
 });

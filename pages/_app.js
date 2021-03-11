@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }) {
       const { title, body } = JSON.parse(message.data.notification);
       var options = {
         body,
-      };      
+      };
       self.registration.showNotification(title, options);
     });
   }

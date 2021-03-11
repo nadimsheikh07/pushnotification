@@ -4,7 +4,7 @@ import localforage from 'localforage';
 
 var firebaseConfig = {
     apiKey: "AIzaSyBTomKe23wQ7C0VpqRoDfM4tTHS091VDN0",
-    // authDomain: "mresta-acf9a.firebaseapp.com",
+    authDomain: "mresta-acf9a.firebaseapp.com",
     projectId: "mresta-acf9a",
     storageBucket: "mresta-acf9a.appspot.com",
     messagingSenderId: "598440874412",
