@@ -30,7 +30,6 @@ self.addEventListener('install', (event) => {
     console.log('Service worker installed');
 });
 
-
 /**
  * --- user click notification ---
  * --- get notification object ---
@@ -66,9 +65,8 @@ self.addEventListener('notificationclick', (event) => {
  * }
  */
 
-messaging.onMessage((payload) => {
-    console.log('[firebase-messaging-sw.js] Received message ', payload);
 
+messaging.setBackgroundMessageHandler((payload) => {
     let data = JSON.parse(payload.data.custom_notification);
     let notificationTitle = data.title;
     let notificationOptions = {
@@ -84,32 +82,4 @@ messaging.onMessage((payload) => {
     };
 
     return self.registration.showNotification(notificationTitle, notificationOptions);
-});
-
-messaging.setBackgroundMessageHandler((payload) => {
-    console.log('[firebase-messaging-sw.js] Received background message ', payload);
-
-    const promiseChain = clients
-        .matchAll({
-            type: "window",
-            includeUncontrolled: true
-        })
-        .then(windowClients => {
-            for (let i = 0; i < windowClients.length; i++) {
-                const windowClient = windowClients[i];
-                windowClient.postMessage(payload);
-            }
-        })
-        .then(() => {
-            const data = payload.notification
-            // Customize notification here
-            const notificationTitle = data.title;
-            const notificationOptions = {
-                body: data.body,
-                icon: data.icon,
-                click_action: data.click_action
-            };
-            return registration.showNotification(notificationTitle, notificationOptions);
-        });
-    return promiseChain;
 });
