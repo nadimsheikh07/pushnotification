@@ -24,15 +24,15 @@ function MyApp({ Component, pageProps }) {
   React.useEffect(() => {
 
     // add serviceWorker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          for (let registration of registrations) {
-            registration.unregister().then(bool => { console.log('unregister: ', bool); });
-          }
-        });
-      });
-    }
+    // if ('serviceWorker' in navigator) {
+    //   window.addEventListener('load', function () {
+    //     navigator.serviceWorker.getRegistrations().then(registrations => {
+    //       for (let registration of registrations) {
+    //         registration.unregister().then(bool => { console.log('unregister: ', bool); });
+    //       }
+    //     });
+    //   });
+    // }
     setToken()
 
   }, [])
