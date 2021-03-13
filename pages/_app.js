@@ -1,42 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../styles/globals.css'
-import { firebaseCloudMessaging } from '../firebase';
-import "firebase/messaging";
-import firebase from 'firebase/app';
-
+import firebase from 'firebase/app'
+import { firebaseCloudMessaging } from '../utils/webPush'
 
 function MyApp({ Component, pageProps }) {
 
 
-  const setToken = async () => {
-    try {
-      const token = await firebaseCloudMessaging.init();
-      if (token) {
-        console.log('token', token);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-
-
-  React.useEffect(() => {
-
-    // add serviceWorker
-    // if ('serviceWorker' in navigator) {
-    //   window.addEventListener('load', function () {
-    //     navigator.serviceWorker.getRegistrations().then(registrations => {
-    //       for (let registration of registrations) {
-    //         registration.unregister().then(bool => { console.log('unregister: ', bool); });
-    //       }
-    //     });
-    //   });
-    // }
+  useEffect(() => {
     setToken()
+    // this is working
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('message', (event) => console.log('event for the service worker', event))
+    }
+    async function setToken() {
+      try {
+        const token = await firebaseCloudMessaging.init()
+        if (token) {
+          console.log('token', token)
+          // not working
+          getMessage()
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  })
 
-  }, [])
-
+  function getMessage() {
+    console.log('message functions')
+    const messaging = firebase.messaging()
+    messaging.onMessage((message) => console.log('foreground', message))
+  }
 
   return <Component {...pageProps} />
 }
