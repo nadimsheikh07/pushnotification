@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/globals.css'
-import { firebaseCloudMessaging } from '../firebase';
+import { firebaseCloudMessaging, onMessageListener } from '../firebase';
+import "firebase/messaging";
 import firebase from 'firebase/app';
 
 
@@ -18,17 +19,7 @@ function MyApp({ Component, pageProps }) {
     }
   }
 
-  if (firebase.apps.length) {
 
-    const messaging = firebase.messaging();
-    messaging.onMessage((message) => {
-      const { title, body } = JSON.parse(message.data.notification);
-      var options = {
-        body,
-      };
-      self.registration.showNotification(title, options);
-    });
-  }
 
   React.useEffect(() => {
 
@@ -42,10 +33,15 @@ function MyApp({ Component, pageProps }) {
     //     });
     //   });
     // }
-
     setToken()
 
+
   }, [])
+
+
+  onMessageListener().then(payload => {
+    console.log('onMessageListener', payload);
+  }).catch(err => console.log('failed: ', err));
 
 
   return <Component {...pageProps} />

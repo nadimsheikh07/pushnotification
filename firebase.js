@@ -12,13 +12,27 @@ var firebaseConfig = {
     measurementId: "G-GV5B6LYL2D"
 };
 
+const onMessageListener = () => {
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+        const messaging = firebase.messaging();
+        return new Promise((resolve) => {
+            messaging.onMessage((payload) => {
+                resolve(payload);
+            });
+        });
+    }
+
+    return null;
+}
+
 const firebaseCloudMessaging = {
     //checking whether token is available in indexed DB
     tokenInlocalforage: async () => {
         return localforage.getItem('fcm_token');
     },
     //initializing firebase app
-    init: async function () {
+    init: async () => {
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
             try {
@@ -45,6 +59,6 @@ const firebaseCloudMessaging = {
                 return null;
             }
         }
-    },
+    }
 };
-export { firebaseCloudMessaging };
+export { firebaseCloudMessaging, onMessageListener };
