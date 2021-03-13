@@ -1,14 +1,13 @@
-importScripts('https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js')
-importScripts('https://www.gstatic.com/firebasejs/7.9.1/firebase-messaging.js')
+importScripts('https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js')
+importScripts('https://www.gstatic.com/firebasejs/8.3.0/firebase-messaging.js')
 
 firebase.initializeApp({
-    apiKey: "AIzaSyBTomKe23wQ7C0VpqRoDfM4tTHS091VDN0",
-    authDomain: "mresta-acf9a.firebaseapp.com",
-    projectId: "mresta-acf9a",
-    storageBucket: "mresta-acf9a.appspot.com",
-    messagingSenderId: "598440874412",
-    appId: "1:598440874412:web:bae618fedd56e3d5956a09",
-    measurementId: "G-KFCGDB8TXL"
+    apiKey: "AIzaSyD0iS_sIuNj91RN104PZJ0h_dpXAihymOA",
+    authDomain: "fir-push-5f4c6.firebaseapp.com",
+    projectId: "fir-push-5f4c6",
+    storageBucket: "fir-push-5f4c6.appspot.com",
+    messagingSenderId: "930496129085",
+    appId: "1:930496129085:web:88eb3786e23365ce5f6254"
 })
 
 const messaging = firebase.messaging()
