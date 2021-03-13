@@ -1,7 +1,40 @@
 import Head from 'next/head'
+import { useEffect } from 'react'
 import styles from '../styles/Home.module.css'
 
+import { firebaseCloudMessaging } from '../utils/webPush'
+import 'firebase/messaging'
+import firebase from 'firebase/app'
+
 export default function Home() {
+
+  useEffect(() => {
+    setToken()
+    // this is working
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('message', (event) => console.log('event for the service worker', event))
+    }
+    async function setToken() {
+      try {
+        const token = await firebaseCloudMessaging.init()
+        if (token) {
+          console.log('token', token)
+          // not working
+          getMessage()
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  })
+
+  function getMessage() {
+    console.log('message functions')
+    const messaging = firebase.messaging()
+    messaging.onMessage((message) => console.log('foreground', message))
+  }
+
+
   return (
     <div className={styles.container}>
       <Head>
