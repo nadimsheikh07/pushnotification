@@ -14,21 +14,22 @@ export default function Home() {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.addEventListener('message', (event) => console.log('event for the service worker', event))
     }
-    async function setToken() {
-      try {
-        const token = await firebaseCloudMessaging.init()
-        if (token) {
-          console.log('token', token)
-          // not working
-          getMessage()
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
   })
 
-  function getMessage() {
+  const setToken = async () => {
+    try {
+      const token = await firebaseCloudMessaging.init()
+      if (token) {
+        console.log('token', token)
+        // not working
+        getMessage()
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getMessage = async () => {
     console.log('message functions')
     const messaging = firebase.messaging()
     messaging.onMessage((message) => console.log('foreground', message))
