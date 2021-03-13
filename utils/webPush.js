@@ -16,8 +16,8 @@ const firebaseCloudMessaging = {
                 projectId: "mresta-acf9a",
                 storageBucket: "mresta-acf9a.appspot.com",
                 messagingSenderId: "598440874412",
-                appId: "1:598440874412:web:34bd76ec5da793a0956a09",
-                measurementId: "G-GV5B6LYL2D"
+                appId: "1:598440874412:web:bae618fedd56e3d5956a09",
+                measurementId: "G-KFCGDB8TXL"
             })
 
             try {
