@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import '../styles/globals.css'
-import firebase from 'firebase/app'
+
 import { firebaseCloudMessaging } from '../utils/webPush'
+import 'firebase/messaging'
+import firebase from 'firebase/app'
 
 function MyApp({ Component, pageProps }) {
 
