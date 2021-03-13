@@ -11,18 +11,16 @@ export default function Home() {
   useEffect(() => {
     setToken()
     // this is working
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.addEventListener('message', (event) => console.log('event for the service worker', event))
-    }
+    // if ('serviceWorker' in navigator) {
+    //   navigator.serviceWorker.addEventListener('message', (event) => console.log('event for the service worker', event))
+    // }
   })
 
   const setToken = async () => {
     try {
       const token = await firebaseCloudMessaging.init()
       if (token) {
-        console.log('token', token)
         setTokenData(token)
-        // not working
         getMessage()
       }
     } catch (error) {
@@ -31,9 +29,11 @@ export default function Home() {
   }
 
   const getMessage = async () => {
-    console.log('message functions')
     const messaging = firebase.messaging()
-    messaging.onMessage((message) => console.log('foreground', message))
+    messaging.onMessage((message) => {
+      console.log('foreground', message)
+      alert(message.notification.body)
+    })
   }
 
 
