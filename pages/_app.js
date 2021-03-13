@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/globals.css'
-import { firebaseCloudMessaging, onMessageListener } from '../firebase';
+import { firebaseCloudMessaging } from '../firebase';
 import "firebase/messaging";
 import firebase from 'firebase/app';
 
@@ -24,24 +24,18 @@ function MyApp({ Component, pageProps }) {
   React.useEffect(() => {
 
     // add serviceWorker
-    // if ('serviceWorker' in navigator) {
-    //   window.addEventListener('load', function () {
-    //     navigator.serviceWorker.getRegistrations().then(registrations => {
-    //       for (let registration of registrations) {
-    //         registration.unregister().then(bool => { console.log('unregister: ', bool); });
-    //       }
-    //     });
-    //   });
-    // }
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          for (let registration of registrations) {
+            registration.unregister().then(bool => { console.log('unregister: ', bool); });
+          }
+        });
+      });
+    }
     setToken()
 
-
   }, [])
-
-
-  onMessageListener().then(payload => {
-    console.log('onMessageListener', payload);
-  }).catch(err => console.log('failed: ', err));
 
 
   return <Component {...pageProps} />
